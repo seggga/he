@@ -19,6 +19,8 @@ type Config struct {
 	// CrawlTimeout int    `yaml:"crawltimeout"`
 }
 
+var CommitVer string
+
 func main() {
 	// get application config
 	cfg, err := ReadConfig()
@@ -27,6 +29,8 @@ func main() {
 		// log.Errorf()
 	}
 	fmt.Printf("%+v\n", cfg)
+
+	fmt.Printf("commit version: %s\n\n", CommitVer)
 
 	// obtain users query
 	fmt.Print("Enter the query: ")
