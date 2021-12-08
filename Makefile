@@ -1,11 +1,11 @@
-LOCAL_BIN = $(CURDIR)/bin
-GIT_COMMIT := $(shell git rev-list -1 HEAD)
+LOCAL_BIN=$(CURDIR)/bin
+GIT_COMMIT=$(shell git rev-list -1 HEAD)
 
 # build the binary
 .PHONY: build
-build1:
+build:
 	mkdir -p $(LOCAL_BIN)
-	go build -ldflags "-X main.gitCommit=$(GIT_COMMIT)" -o $(LOCAL_BIN)/sqlparser $(CURDIR)/cmd/sqlparser
+	go build -ldflags "-X main.CommitVer=$(GIT_COMMIT)" -o $(LOCAL_BIN)/sqlparser $(CURDIR)/cmd/sqlparser
 
 # simple build and run the application
 .PHONY: run
