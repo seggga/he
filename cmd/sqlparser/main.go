@@ -3,34 +3,27 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"strings"
 
-	"gopkg.in/yaml.v3"
+	"github.com/seggga/he/internal/config"
 )
-
-type Config struct {
-	Timeout int `yaml:"timeout"`
-	// MaxResults   int    `yaml:"maxresults"`
-	// MaxErrors    int    `yaml:"maxerrors"`
-	// Url          string `yaml:"url"`
-	// ReqTimeout   int    `yaml:"reqtimeout"`
-	// CrawlTimeout int    `yaml:"crawltimeout"`
-}
 
 var CommitVer string
 
 func main() {
+	binaryPath, err := os.Executable()
+	// binaryName := os.Args[0]
+	fmt.Printf("Path to the binary: %s\n", binaryPath)
+	fmt.Printf("commit version: %s\n\n", CommitVer)
+
 	// get application config
-	cfg, err := ReadConfig()
+	cfg, err := config.ReadConfig()
 	if err != nil {
 		fmt.Printf("Unable to read config.yaml, %v.\nProgram exit", err)
 		// log.Errorf()
 	}
 	fmt.Printf("%+v\n", cfg)
-
-	fmt.Printf("commit version: %s\n\n", CommitVer)
 
 	// obtain users query
 	fmt.Print("Enter the query: ")
@@ -45,20 +38,4 @@ func main() {
 	// log.Debug()
 	fmt.Println(query)
 
-}
-
-// ReadConfig returns a structure with data from config-file
-func ReadConfig() (*Config, error) {
-	// read config file
-	configData, err := ioutil.ReadFile("./configs/config.yaml")
-	if err != nil {
-		return nil, err
-	}
-	// decode config
-	cfg := new(Config)
-	err = yaml.Unmarshal(configData, cfg)
-	if err != nil {
-		return nil, err
-	}
-	return cfg, nil
 }
