@@ -13,7 +13,9 @@ var CommitVer string
 
 func main() {
 	binaryPath, err := os.Executable()
-	// binaryName := os.Args[0]
+	if err != nil {
+		// log.Errorf("there is a problem getting binary path, %v", err)
+	}
 	fmt.Printf("Path to the binary: %s\n", binaryPath)
 	fmt.Printf("commit version: %s\n\n", CommitVer)
 
@@ -38,4 +40,5 @@ func main() {
 	// log.Debug()
 	fmt.Println(query)
 
+	
 }
