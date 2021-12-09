@@ -1,12 +1,11 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
 	"os"
-	"strings"
 
 	"github.com/seggga/he/internal/config"
+	"github.com/seggga/he/internal/query"
 )
 
 var CommitVer string
@@ -24,21 +23,17 @@ func main() {
 	if err != nil {
 		fmt.Printf("Unable to read config.yaml, %v.\nProgram exit", err)
 		// log.Errorf()
+		return
 	}
 	fmt.Printf("%+v\n", cfg)
 
-	// obtain users query
-	fmt.Print("Enter the query: ")
-	reader := bufio.NewReader(os.Stdin)
-	query, err := reader.ReadString('\n')
+	query, err := query.ReadQuery()
 	if err != nil {
-		fmt.Printf("error reading query, %v", err)
+		fmt.Printf("Unable to read query, %v.\nProgram exit", err)
+		// log.Errorf()
 		return
 	}
-	// convert CRLF to LF
-	query = strings.Replace(query, "\n", "", -1)
 	// log.Debug()
 	fmt.Println(query)
 
-	
 }
