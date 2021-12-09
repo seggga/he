@@ -1,9 +1,13 @@
 package domain
 
+type Token interface {
+	IsOperator() bool
+}
+
 type Query struct {
 	Select []string
 	From   []string
-	Where  string
+	Where  []Token
 }
 
 type DataString interface {
@@ -12,13 +16,9 @@ type DataString interface {
 }
 
 type CSVFileReader interface {
+	Check() bool
 	ReadHeader() ([]string, error)
 	NextString() (DataString, error)
-}
-
-type Parser struct {
-	csvFiles []string
-	query    Query
 }
 
 type SQLParser interface {

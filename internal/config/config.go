@@ -20,12 +20,14 @@ func ReadConfig() (*Config, error) {
 	// read config file
 	configData, err := ioutil.ReadFile("./configs/config.yaml")
 	if err != nil {
+		// log.error
 		return nil, err
 	}
 	// decode config
 	cfg := new(Config)
 	err = yaml.Unmarshal(configData, cfg)
 	if err != nil {
+		// log.error
 		return nil, err
 	}
 	return cfg, nil

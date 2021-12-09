@@ -5,16 +5,14 @@ import (
 	"fmt"
 	"os"
 	"strings"
-
-	"github.com/seggga/he/internal/domain"
 )
 
 // NewQuery analyses users query string and produces Query structure
-func NewQuery(s string) (*domain.Query, error) {
-	return nil, nil
+func NewQuery() (string, error) {
+	return readQuery()
 }
 
-func ReadQuery() (string, error) {
+func readQuery() (string, error) {
 	// obtain users query
 	fmt.Print("Enter the query: ")
 	reader := bufio.NewReader(os.Stdin)

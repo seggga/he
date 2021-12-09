@@ -2,10 +2,14 @@ package main
 
 import (
 	"fmt"
+	"io"
 	"os"
+	"strings"
 
-	"github.com/seggga/he/internal/config"
+	"github.com/xwb1989/sqlparser"
+
 	"github.com/seggga/he/internal/query"
+	"github.com/seggga/he/internal/services"
 )
 
 var CommitVer string
@@ -19,21 +23,39 @@ func main() {
 	fmt.Printf("commit version: %s\n\n", CommitVer)
 
 	// get application config
-	cfg, err := config.ReadConfig()
-	if err != nil {
-		fmt.Printf("Unable to read config.yaml, %v.\nProgram exit", err)
-		// log.Errorf()
-		return
-	}
-	fmt.Printf("%+v\n", cfg)
-
-	query, err := query.ReadQuery()
+	// cfg, err := config.ReadConfig()
+	// if err != nil {
+	// 	fmt.Printf("Unable to read config.yaml, %v.\nProgram exit", err)
+	// 	return
+	// }
+	// fmt.Printf("%+v\n", cfg)
+	query, err := query.NewQuery()
 	if err != nil {
 		fmt.Printf("Unable to read query, %v.\nProgram exit", err)
-		// log.Errorf()
+		// log.Error
 		return
 	}
-	// log.Debug()
-	fmt.Println(query)
+	parser := services.NewParser(query)
+	parser.Run()
+
+	// query, err := query.ReadQuery()
+	// if err != nil {
+	// 	fmt.Printf("Unable to read query, %v.\nProgram exit", err)
+	// 	// log.Errorf()
+	// 	return
+	// }
+	// // log.Debug()
+	// fmt.Println(query)
+
+	reader := strings.NewReader(`select one, two, three from file_one.csv, file_two.csv where one>10 and two="hi there"`)
+	tokens := sqlparser.NewTokenizer(reader)
+	for {
+		stmt, err := sqlparser.ParseNext(tokens)
+		if err == io.EOF {
+			break
+		}
+		fmt.Println(stmt)
+		// Do your logics with the statements.
+	}
 
 }
