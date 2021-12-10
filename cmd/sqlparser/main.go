@@ -8,6 +8,7 @@ import (
 
 	"github.com/xwb1989/sqlparser"
 
+	"github.com/seggga/he/internal/config"
 	"github.com/seggga/he/internal/query"
 	"github.com/seggga/he/internal/services"
 )
@@ -23,12 +24,13 @@ func main() {
 	fmt.Printf("commit version: %s\n\n", CommitVer)
 
 	// get application config
-	// cfg, err := config.ReadConfig()
-	// if err != nil {
-	// 	fmt.Printf("Unable to read config.yaml, %v.\nProgram exit", err)
-	// 	return
-	// }
-	// fmt.Printf("%+v\n", cfg)
+	cfg, err := config.ReadConfig()
+	if err != nil {
+		fmt.Printf("Unable to read config.yaml, %v.\nProgram exit", err)
+		return
+	}
+	fmt.Printf("%+v\n", cfg)
+	
 	query, err := query.NewQuery()
 	if err != nil {
 		fmt.Printf("Unable to read query, %v.\nProgram exit", err)
@@ -56,6 +58,7 @@ func main() {
 		}
 		fmt.Println(stmt)
 		// Do your logics with the statements.
+
 	}
 
 }

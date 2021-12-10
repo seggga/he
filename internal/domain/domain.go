@@ -21,7 +21,16 @@ type CSVFileReader interface {
 	NextString() (DataString, error)
 }
 
-type SQLParser interface {
-	CheckFile(file CSVFileReader) error
+type Parser interface {
+	ParseSelect()
+	ParseFrom()
+	ParseWhere()
+}
+
+type Checker interface {
+	CheckFile() error
+}
+
+type CSVDigger interface {
 	SearchData(file CSVFileReader) error
 }
