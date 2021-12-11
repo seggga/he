@@ -1,13 +1,19 @@
 package domain
 
-type Token interface {
-	IsOperator() bool
+type Token struct {
+	Token    string
+	Lexema   string
+	Priority int
 }
 
-type Query struct {
+type ParsedQuery struct {
 	Select []string
-	From   []string
+	Files  []string
 	Where  []Token
+}
+
+type QueryReader interface {
+	Read() (sql string, err error)
 }
 
 type DataString interface {
@@ -21,11 +27,11 @@ type CSVFileReader interface {
 	NextString() (DataString, error)
 }
 
-type Parser interface {
-	Parse() error
+type QueryParser interface {
+	Parse(string) error
 	GetSelect() []string
 	GetFiles() []string
-	GetCondition() 
+	GetCondition() []Token
 }
 
 type Checker interface {

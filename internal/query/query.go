@@ -7,8 +7,15 @@ import (
 	"strings"
 )
 
+type Query struct{}
+
+// NewQuery - ...
+func NewQuery() Query {
+	return Query{}
+}
+
 // NewQuery analyses users query string and produces Query structure
-func NewQuery() (string, error) {
+func (q Query) Read() (string, error) {
 	return readQuery()
 }
 
