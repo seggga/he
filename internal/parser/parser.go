@@ -1,42 +1,81 @@
 package parser
 
 import (
+	"errors"
+	"fmt"
+
 	"github.com/seggga/he/internal/domain"
 	"github.com/xwb1989/sqlparser"
 )
 
 type Parser struct {
-	sql   string
-	ast   *sqlparser.Statement
-	query domain.Query
+	sql       string
+	condition string
+	parseStmt *sqlparser.Statement
+	query     domain.Query
 }
 
+var (
+	errStopParse = errors.New("stop parsing")
+)
+
+// NewParser creates new Parser with sql and ast fields
 func NewParser(sql string) (*Parser, error) {
-	ast, err := sqlparser.Parse(sql)
+	parseStmt, err := sqlparser.Parse(sql)
 	if err != nil {
 		return nil, nil
 	}
 	return &Parser{
-		sql: sql,
-		ast: &ast,
+		sql:       sql,
+		parseStmt: &parseStmt,
 	}, nil
 }
 
-func (p *Parser) ParseSelect() {
-	// sql := `select one, two, three from file_one.csv, file_two.csv where one>10 and two="hi there"`
-	// stmt, _ := sqlparser.Parse(p.sql)
-
+// ParseSelect parses sql and retreives columns from SEECT statement
+func (p *Parser) Parse() error {
 	selectStmt := make([]string, 0)
-	visitSelect := func(node sqlparser.SQLNode) (kontinue bool, err error) {
-		if sel, ok := node.(*sqlparser.Select); ok {
-			for _, v := range sel.SelectExprs {
+	fromStmt := make([]string, 0)
+	var condition string
+
+	visit := func(node sqlparser.SQLNode) (kontinue bool, err error) {
+		switch node := node.(type) {
+		case *sqlparser.Select:
+			for _, v := range node.SelectExprs {
 				selectStmt = append(selectStmt, sqlparser.String(v))
 			}
-			return false, nil
+			for _, v := range node.From {
+				fromStmt = append(fromStmt, sqlparser.String(v))
+			}
+
+		case *sqlparser.Where:
+			condition = sqlparser.String(node.Expr)
+			return false, errStopParse
 		}
 		return true, nil
 	}
-	sqlparser.Walk(visitSelect, *p.ast)
+
+	err := sqlparser.Walk(visit, *p.parseStmt)
+	if err != nil && !errors.Is(err, errStopParse) {
+		return fmt.Errorf("error parsing sql query, %w", err)
+	}
 
 	p.query.Select = selectStmt
+	p.query.From = fromStmt
+	p.condition = condition
+	return nil
+}
+
+// GetSelect returns column names parsed from sql query (SELECT statement)
+func (p Parser) GetSelect() []string {
+	return p.query.Select
+}
+
+// GetFiles returns csv file names parsed from sql query (FROM statement)
+func (p Parser) GetFiles() []string {
+	return p.query.From
+}
+
+// GetCondition parses WHERE statement and produces slice of lexemmas
+func (p Parser) GetCondition() {
+
 }

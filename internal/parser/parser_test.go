@@ -7,13 +7,29 @@ import (
 )
 
 var (
-	testSQL = `select one, two, three from file_one.csv, file_two.csv where one>10 and two="hi there"`
+	testSQL = `select one, two, three from file_one.csv, file_two.csv where (one>10 or two="hi there") and four<=10`
 )
 
-func TestParseSelect(t *testing.T) {
+func TestGetSelect(t *testing.T) {
 	p, _ := NewParser(testSQL)
-	p.ParseSelect()
+	p.Parse()
 
 	want := []string{"one", "two", "three"}
 	assert.Equal(t, want, p.query.Select, "select mismatch")
+}
+
+func TestGetFrom(t *testing.T) {
+	p, _ := NewParser(testSQL)
+	p.Parse()
+
+	want := []string{"file_one.csv", "file_two.csv"}
+	assert.Equal(t, want, p.query.From, "select mismatch")
+}
+
+func TestGetCondition(t *testing.T) {
+	p, _ := NewParser(testSQL)
+	p.Parse()
+
+	want := `(one > 10 or two = 'hi there') and four <= 10`
+	assert.Equal(t, want, p.condition, "select mismatch")
 }
