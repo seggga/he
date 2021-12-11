@@ -22,9 +22,10 @@ type CSVFileReader interface {
 }
 
 type Parser interface {
-	ParseSelect()
-	ParseFrom()
-	ParseWhere()
+	Parse() error
+	GetSelect() []string
+	GetFiles() []string
+	GetCondition() 
 }
 
 type Checker interface {
