@@ -9,6 +9,7 @@ import (
 	"github.com/xwb1989/sqlparser"
 
 	"github.com/seggga/he/internal/config"
+	"github.com/seggga/he/internal/parser"
 	"github.com/seggga/he/internal/query"
 	"github.com/seggga/he/internal/services"
 )
@@ -30,15 +31,11 @@ func main() {
 		return
 	}
 	fmt.Printf("%+v\n", cfg)
-	
-	query, err := query.NewQuery()
-	if err != nil {
-		fmt.Printf("Unable to read query, %v.\nProgram exit", err)
-		// log.Error
-		return
-	}
-	parser := services.NewParser(query)
-	parser.Run()
+
+	query := query.NewQuery()
+	parser := parser.NewParser()
+	service := services.NewService(query, &parser)
+	service.Run()
 
 	// query, err := query.ReadQuery()
 	// if err != nil {
