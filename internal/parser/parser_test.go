@@ -8,13 +8,13 @@ import (
 
 var (
 	testParser = new(Parser)
-	testSQL    = `select one, two, three from file_one.csv, file_two.csv where (one>10 or two="hi there") and four<=10`
+	testSQL    = `select one, two, three, "where" from file_one.csv, file_two.csv where (one>10 or two="hi there") and four<=10`
 )
 
 func TestGetSelect(t *testing.T) {
 	testParser.Parse(testSQL)
 
-	want := []string{"one", "two", "three"}
+	want := []string{"one", "two", "three", "'where'"}
 	assert.Equal(t, want, testParser.parsedQuery.Select, "select mismatch")
 }
 
