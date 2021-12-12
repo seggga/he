@@ -1,15 +1,17 @@
 package domain
 
 type Token struct {
-	Token    string
-	Lexema   string
-	Priority int
+	Token     int
+	Lexema    []byte
+	TokenType string
+	Priority  int
 }
 
 type ParsedQuery struct {
-	Select []string
-	Files  []string
-	Where  []Token
+	Select   []string
+	Files    []string
+	Where    []Token
+	ColNames []string
 }
 
 type QueryReader interface {
