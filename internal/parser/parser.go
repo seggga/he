@@ -86,7 +86,7 @@ func (p Parser) GetFiles() []string {
 
 // GetCondition parses WHERE statement and produces slice of lexemmas
 func (p Parser) GetCondition() []domain.Token {
-	return nil
+	return p.parsedQuery.Where
 }
 
 // parse condition by sequential token scanning
