@@ -113,7 +113,7 @@ func parseCondition(condition string) []domain.Token {
 // Priority is set according to Reverse Poland Notation
 var validTokens = map[int]domain.Token{
 	40:    {40, []byte("("), "bracket", 0},
-	41:    {41, []byte(")"), "btacket", 1},
+	41:    {41, []byte(")"), "bracket", 1},
 	60:    {60, []byte("<"), "operator", 3},
 	61:    {61, []byte("="), "operator", 3},
 	62:    {62, []byte(">"), "operator", 3},
@@ -136,7 +136,7 @@ func isValidToken(i int) bool {
 
 func composeToken(i int, b []byte) domain.Token {
 	token := validTokens[i]
-	if token.TokenType != "operator" {
+	if token.TokenType != "operator" && token.TokenType != "bracket" {
 		token.Lexema = b
 	}
 	return token
