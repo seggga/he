@@ -11,19 +11,19 @@ var (
 	testParser    = new(Parser)
 	testSQL       = `select one, two, three, "where" from file_one.csv, file_two.csv where (one>10 or two="hi there") and four<=15`
 	wantCondition = []domain.Token{
-		{40, []byte("("), "operator", 0},          // (
-		{57395, []byte("one"), "column name", 0},  // one
-		{62, []byte(">"), "operator", 0},          // >
-		{57398, []byte{49, 48}, "integral", 0},    // 10
-		{57409, []byte("OR"), "operator", 0},      // or
-		{57395, []byte("two"), "column name", 0},  // two
-		{61, []byte("="), "operator", 0},          // =
-		{57397, []byte("hi there"), "string", 0},  // "hi there"
-		{41, []byte(")"), "operator", 0},          // )
-		{57410, []byte("and"), "operator", 0},     // and
-		{57395, []byte("four"), "column name", 0}, // four
-		{57418, []byte("<="), "operator", 0},      // <=
-		{57398, []byte{49, 53}, "integral", 0},    // 15
+		{40, []byte("("), "bracket", 0},             // (
+		{57395, []byte("one"), "column name", 100},  // one
+		{62, []byte(">"), "operator", 3},            // >
+		{57398, []byte{49, 48}, "integral", 100},    // 10
+		{57409, []byte("OR"), "operator", 2},        // or
+		{57395, []byte("two"), "column name", 100},  // two
+		{61, []byte("="), "operator", 3},            // =
+		{57397, []byte("hi there"), "string", 100},  // "hi there"
+		{41, []byte(")"), "bracket", 1},             // )
+		{57410, []byte("and"), "operator", 2},       // and
+		{57395, []byte("four"), "column name", 100}, // four
+		{57418, []byte("<="), "operator", 3},        // <=
+		{57398, []byte{49, 53}, "integral", 100},    // 15
 		// Token     int
 		// Lexema    []byte
 		// TokenType string
