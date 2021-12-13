@@ -109,22 +109,23 @@ func parseCondition(condition string) []domain.Token {
 	return where
 }
 
-// token: {token, lexema, tokenType, priority}
+// domain.Token: {token, lexema, tokenType, priority}
+// Priority is set according to Reverse Poland Notation
 var validTokens = map[int]domain.Token{
-	40:    {40, []byte("("), "operator", 0},
-	41:    {41, []byte(")"), "operator", 0},
-	60:    {60, []byte("<"), "operator", 0},
-	61:    {61, []byte("="), "operator", 0},
-	62:    {62, []byte(">"), "operator", 0},
-	57418: {57418, []byte("<="), "operator", 0},
-	57419: {57419, []byte(">="), "operator", 0},
-	57420: {57420, []byte("!="), "operator", 0},
-	57409: {57409, []byte("OR"), "operator", 0},
-	57410: {57410, []byte("and"), "operator", 0},
-	57411: {57411, []byte("not"), "operator", 0},
-	57398: {57398, []byte("_"), "integral", 0},
-	57397: {57397, []byte("_"), "string", 0},
-	57395: {57395, []byte("_"), "column name", 0},
+	40:    {40, []byte("("), "bracket", 0},
+	41:    {41, []byte(")"), "btacket", 1},
+	60:    {60, []byte("<"), "operator", 3},
+	61:    {61, []byte("="), "operator", 3},
+	62:    {62, []byte(">"), "operator", 3},
+	57418: {57418, []byte("<="), "operator", 3},
+	57419: {57419, []byte(">="), "operator", 3},
+	57420: {57420, []byte("!="), "operator", 3},
+	57409: {57409, []byte("OR"), "operator", 2},
+	57410: {57410, []byte("and"), "operator", 2},
+	57411: {57411, []byte("not"), "operator", 2},
+	57398: {57398, []byte("_"), "integral", 100},
+	57397: {57397, []byte("_"), "string", 100},
+	57395: {57395, []byte("_"), "column name", 100},
 }
 
 // isValidToken checks if token is valid in WHERE statement
