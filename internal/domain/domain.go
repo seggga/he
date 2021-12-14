@@ -24,10 +24,9 @@ type DataString interface {
 }
 
 type CSVFileReader interface {
-	FileInit(string) error
-	FileClose()
-	ReadHeader() ([]string, error)
-	ReadRow() (DataString, error)
+	ReaderInit(string) error
+	ReadHead() ([]string, error)
+	ReadRow() ([]string, error)
 }
 
 type QueryParser interface {
