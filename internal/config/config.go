@@ -7,7 +7,8 @@ import (
 )
 
 type Config struct {
-	Timeout int `yaml:"timeout"`
+	Timeout   int    `yaml:"timeout"`
+	Separator string `yaml:"separator"`
 	// MaxResults   int    `yaml:"maxresults"`
 	// MaxErrors    int    `yaml:"maxerrors"`
 	// Url          string `yaml:"url"`
