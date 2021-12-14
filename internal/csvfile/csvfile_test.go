@@ -15,8 +15,8 @@ three,2,four`
 	}
 )
 
-func TestReadHead(t *testing.T) {
-	head, _ := testScanner.ReadHead()
+func TestHead(t *testing.T) {
+	head, _ := testScanner.Head()
 	want := []string{"col_str1", "col_int", "col_str2"}
 
 	if len(want) != len(head) {
@@ -29,8 +29,8 @@ func TestReadHead(t *testing.T) {
 	}
 }
 
-func TestReadHeadRow(t *testing.T) {
-	head, _ := testScanner.ReadHead()
+func TestHeadAndRow(t *testing.T) {
+	head, _ := testScanner.Head()
 	want := []string{"col_str1", "col_int", "col_str2"}
 
 	if len(want) != len(head) {
@@ -42,7 +42,7 @@ func TestReadHeadRow(t *testing.T) {
 		}
 	}
 
-	row, _ := testScanner.ReadRow()
+	row, _ := testScanner.Row()
 	want = []string{"one", "1", "two"}
 	if len(want) != len(row) {
 		t.Errorf("slices differ in size: want %d, got %d", len(want), len(head))
@@ -53,7 +53,7 @@ func TestReadHeadRow(t *testing.T) {
 		}
 	}
 
-	row, _ = testScanner.ReadRow()
+	row, _ = testScanner.Row()
 	want = []string{"three", "2", "four"}
 	if len(want) != len(row) {
 		t.Errorf("slices differ in size: want %d, got %d", len(want), len(head))
