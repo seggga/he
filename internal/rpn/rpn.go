@@ -13,6 +13,10 @@ func NewConditionCheck(whereTokens []domain.Token) *ConditionCheck {
 	}
 }
 
+func (c ConditionCheck) Check(head []string, row []string) bool {
+	return true
+}
+
 func convertToRPN(conditionTokens []domain.Token) []domain.Token {
 	var rpn, stack []domain.Token
 	for _, token := range conditionTokens {
