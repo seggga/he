@@ -24,9 +24,10 @@ type DataString interface {
 }
 
 type CSVFileReader interface {
-	Check() bool
+	FileInit(string) error
+	FileClose()
 	ReadHeader() ([]string, error)
-	NextString() (DataString, error)
+	ReadRow() (DataString, error)
 }
 
 type QueryParser interface {
@@ -34,12 +35,4 @@ type QueryParser interface {
 	GetSelect() []string
 	GetFiles() []string
 	GetCondition() []Token
-}
-
-type Checker interface {
-	CheckFile() error
-}
-
-type CSVDigger interface {
-	SearchData(file CSVFileReader) error
 }

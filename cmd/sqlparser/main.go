@@ -9,6 +9,7 @@ import (
 	"github.com/xwb1989/sqlparser"
 
 	"github.com/seggga/he/internal/config"
+	"github.com/seggga/he/internal/csvfile"
 	"github.com/seggga/he/internal/parser"
 	"github.com/seggga/he/internal/query"
 	"github.com/seggga/he/internal/services"
@@ -34,7 +35,8 @@ func main() {
 
 	query := query.NewQuery()
 	parser := parser.NewParser()
-	service := services.NewService(query, &parser)
+	csv := new(csvfile.CSVScanner)
+	service := services.NewService(query, &parser, csv)
 	service.Run()
 
 	// query, err := query.ReadQuery()
