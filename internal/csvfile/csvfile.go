@@ -14,7 +14,7 @@ type CSVScanner struct {
 	row      []string
 }
 
-func (c CSVScanner) ReaderInit(fileName string) error {
+func (c CSVScanner) Init(fileName string) error {
 	// check file existence
 	if _, err := os.Stat(fileName); err != nil {
 		return err
@@ -30,7 +30,7 @@ func (c CSVScanner) ReaderInit(fileName string) error {
 }
 
 // ReadHead reads the first string of the file
-func (c CSVScanner) ReadHead() ([]string, error) {
+func (c CSVScanner) Head() ([]string, error) {
 	err := c.scan()
 	if err != nil {
 		return nil, err
@@ -44,7 +44,7 @@ func (c CSVScanner) ReadHead() ([]string, error) {
 }
 
 // ReadRow reads a row from CSVScanner.Reader (io.Reader)
-func (c CSVScanner) ReadRow() ([]string, error) {
+func (c CSVScanner) Row() ([]string, error) {
 	err := c.scan()
 	return c.row, err
 }
