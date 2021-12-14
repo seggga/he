@@ -2,11 +2,19 @@ package rpn
 
 import "github.com/seggga/he/internal/domain"
 
-func ConvertToRPN(conditionTokens []domain.Token) []domain.Token {
+type ConditionCheck struct {
+	condition []domain.Token
+}
 
+// creates a new ConditionCheck structure
+func NewConditionCheck(whereTokens []domain.Token) *ConditionCheck {
+	return &ConditionCheck{
+		condition: convertToRPN(whereTokens),
+	}
+}
+
+func convertToRPN(conditionTokens []domain.Token) []domain.Token {
 	var rpn, stack []domain.Token
-	// var stackPriority, tokenPriority int
-
 	for _, token := range conditionTokens {
 		// операнд сразу заносится в выходную строку
 		if isOperand(token) {
@@ -37,9 +45,7 @@ func ConvertToRPN(conditionTokens []domain.Token) []domain.Token {
 
 		// оператор участвует в ветвлении
 		if isOperator(token) {
-			// tokenPriority = getPriority(lex)
-
-			// стек пуст - записываем знак операции в стек
+			// если стек пуст - записываем знак операции в стек
 			if len(stack) == 0 {
 				stack = append(stack, token)
 				continue
@@ -48,18 +54,13 @@ func ConvertToRPN(conditionTokens []domain.Token) []domain.Token {
 			// стек не пуст, извлекаем все операторы из стека, чей приоритет >= приоритету токена
 			// затем помещаем токен в стек
 			for i := len(stack) - 1; i >= 0; i -= 1 {
-
 				stackToken := stack[i]
-				// stackPriority = stack[i].Priority
-
 				// приоритет у токена больше, чем у вершины стека - кладем токен в стек
 				if token.Priority > stackToken.Priority {
 					stack = append(stack, token)
 					break
 				}
-
 				stack = stack[:i]
-
 				rpn = append(rpn, stackToken)
 			}
 
@@ -77,7 +78,6 @@ func ConvertToRPN(conditionTokens []domain.Token) []domain.Token {
 		stack = stack[:i]
 		rpn = append(rpn, stackLex)
 	}
-
 	return rpn
 }
 
