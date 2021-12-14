@@ -2,16 +2,13 @@ package main
 
 import (
 	"fmt"
-	"io"
 	"os"
-	"strings"
-
-	"github.com/xwb1989/sqlparser"
 
 	"github.com/seggga/he/internal/config"
 	"github.com/seggga/he/internal/csvfile"
 	"github.com/seggga/he/internal/parser"
 	"github.com/seggga/he/internal/query"
+	"github.com/seggga/he/internal/rpn"
 	"github.com/seggga/he/internal/services"
 )
 
@@ -35,29 +32,10 @@ func main() {
 
 	query := query.NewQuery()
 	parser := parser.NewParser()
+	checker := new(rpn.ConditionCheck)
 	csv := new(csvfile.CSVScanner)
-	service := services.NewService(query, &parser, csv)
+
+	service := services.NewService(query, &parser, checker, csv, cfg.Separator)
 	service.Run()
-
-	// query, err := query.ReadQuery()
-	// if err != nil {
-	// 	fmt.Printf("Unable to read query, %v.\nProgram exit", err)
-	// 	// log.Errorf()
-	// 	return
-	// }
-	// // log.Debug()
-	// fmt.Println(query)
-
-	reader := strings.NewReader(`select one, two, three from file_one.csv, file_two.csv where one>10 and two="hi there"`)
-	tokens := sqlparser.NewTokenizer(reader)
-	for {
-		stmt, err := sqlparser.ParseNext(tokens)
-		if err == io.EOF {
-			break
-		}
-		fmt.Println(stmt)
-		// Do your logics with the statements.
-
-	}
 
 }
