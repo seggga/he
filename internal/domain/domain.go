@@ -18,10 +18,10 @@ type QueryReader interface {
 	Read() (sql string, err error)
 }
 
-type DataString interface {
-	CheckCondition() bool
-	PrintString()
-}
+// type DataString interface {
+// 	CheckCondition() bool
+// 	PrintString()
+// }
 
 type CSVFileReader interface {
 	ReaderInit(string) error
@@ -34,4 +34,8 @@ type QueryParser interface {
 	GetSelect() []string
 	GetFiles() []string
 	GetCondition() []Token
+}
+
+type ConditionChecker interface {
+	Check() bool
 }
