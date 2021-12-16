@@ -30,5 +30,6 @@ func readQuery() (string, error) {
 	}
 	// convert CRLF to LF
 	query = strings.Replace(query, "\n", "", -1)
+	// query := `select col1, col2, col3 from pat.csv, mat.csv where col1>1 and col3="bar"`
 	return query, nil
 }
