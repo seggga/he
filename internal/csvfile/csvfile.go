@@ -14,7 +14,7 @@ type CSVScanner struct {
 	row      []string
 }
 
-func (c CSVScanner) Init(fileName string) error {
+func (c *CSVScanner) Init(fileName string) error {
 	// check file existence
 	if _, err := os.Stat(fileName); err != nil {
 		return err
