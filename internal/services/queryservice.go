@@ -17,6 +17,21 @@ type queryService struct {
 	sep     string
 }
 
+func NewService(q domain.QueryReader, p domain.QueryParser, checker domain.ConditionChecker, csv domain.CSVFileReader, sep string) queryService {
+	return queryService{
+		query:   q,
+		parser:  p,
+		checker: checker,
+		csv:     csv,
+		sep:     sep,
+	}
+}
+
+// Run executes:
+//    reads query from console,
+//    parses query,
+//    reads csv-rows
+//    decides whether to print them or not
 func (qs *queryService) Run() {
 	// read query
 	sql, err := qs.query.Read()
@@ -30,14 +45,15 @@ func (qs *queryService) Run() {
 		// log
 		fmt.Println("program exit")
 	}
-	// variable to check, if head has already been printed
-	headNotPrinted := false
+	// if head has already been printed - don't do this again
+	headNotPrinted := true
 	for _, v := range qs.parser.GetFiles() {
 		// initialize csv-reader
 		err := qs.csv.Init(v)
 		if err != nil {
 			// log
 			fmt.Println("Program exit")
+			return
 		}
 		// read head of the csv-file
 		head, err := qs.csv.Head()
@@ -45,9 +61,10 @@ func (qs *queryService) Run() {
 			// log cannot read csv-head
 			continue
 		}
+		// if head has already been printed - don't do this again
 		if headNotPrinted {
 			printData(qs.parser.GetSelect(), head, head, qs.sep)
-			headNotPrinted = true
+			headNotPrinted = false
 		}
 		// read csv-rows
 		for {
@@ -65,31 +82,6 @@ func (qs *queryService) Run() {
 				printData(qs.parser.GetSelect(), head, row, qs.sep)
 			}
 		}
-
-	}
-	// get rpn
-	/* for files from query {
-
-		init file
-		defer close file
-
-		read header
-		read row
-
-		execute rpn
-
-		print data
-	}
-	*/
-}
-
-func NewService(q domain.QueryReader, p domain.QueryParser, checker domain.ConditionChecker, csv domain.CSVFileReader, sep string) queryService {
-	return queryService{
-		query:   q,
-		parser:  p,
-		checker: checker,
-		csv:     csv,
-		sep:     sep,
 	}
 }
 
@@ -101,7 +93,7 @@ func printData(sel []string, head []string, row []string, sep string) {
 			}
 		}
 		if i < len(sel)-1 {
-			fmt.Print("%s", sep)
+			fmt.Printf("%s", sep)
 		}
 	}
 	fmt.Printf("\n")
