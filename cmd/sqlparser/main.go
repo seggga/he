@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/seggga/he/internal/config"
-	"github.com/seggga/he/internal/csvfile"
-	"github.com/seggga/he/internal/parser"
-	"github.com/seggga/he/internal/query"
-	"github.com/seggga/he/internal/rpn"
+	"github.com/seggga/he/internal/pkg/config"
+	"github.com/seggga/he/internal/pkg/csvfile"
+	"github.com/seggga/he/internal/pkg/parser"
+	"github.com/seggga/he/internal/pkg/query"
+	"github.com/seggga/he/internal/pkg/rpn"
 	"github.com/seggga/he/internal/services"
 )
 

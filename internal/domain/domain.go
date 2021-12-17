@@ -25,6 +25,7 @@ type QueryReader interface {
 
 type CSVFileReader interface {
 	Init(string) error
+	Close()
 	Head() ([]string, error)
 	Row() ([]string, error)
 }
@@ -37,5 +38,6 @@ type QueryParser interface {
 }
 
 type ConditionChecker interface {
-	Check(head []string, row []string) bool
+	Init([]Token)
+	Check(head []string, row []string) (bool, error)
 }
