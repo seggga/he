@@ -37,14 +37,15 @@ func (qs *queryService) Run() {
 	sql, err := qs.query.Read()
 	if err != nil {
 		// log
-		fmt.Println("program exit")
+		fmt.Println("error reading query, program exit")
 	}
 	// parse query
 	err = qs.parser.Parse(sql)
 	if err != nil {
 		// log
-		fmt.Println("program exit")
+		fmt.Println("error parsing the query, program exit")
 	}
+	qs.checker.Init(qs.parser.GetCondition())
 	// if head has already been printed - don't do this again
 	headNotPrinted := true
 	for _, v := range qs.parser.GetFiles() {
@@ -52,7 +53,7 @@ func (qs *queryService) Run() {
 		err := qs.csv.Init(v)
 		if err != nil {
 			// log
-			fmt.Println("Program exit")
+			fmt.Println("error reading file, program exit")
 			return
 		}
 		// read head of the csv-file
@@ -77,8 +78,15 @@ func (qs *queryService) Run() {
 				// log cannot read csv-row
 				break
 			}
+			// fmt.Printf("%v", row)
 			// check condition
-			if qs.checker.Check(head, row) {
+			result, err := qs.checker.Check(head, row)
+			if err != nil {
+				fmt.Printf("error checking condition, program exit %s", err)
+				qs.csv.Close()
+				return
+			}
+			if result {
 				printData(qs.parser.GetSelect(), head, row, qs.sep)
 			}
 		}
