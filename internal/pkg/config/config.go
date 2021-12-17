@@ -9,11 +9,6 @@ import (
 type Config struct {
 	Timeout   int    `yaml:"timeout"`
 	Separator string `yaml:"separator"`
-	// MaxResults   int    `yaml:"maxresults"`
-	// MaxErrors    int    `yaml:"maxerrors"`
-	// Url          string `yaml:"url"`
-	// ReqTimeout   int    `yaml:"reqtimeout"`
-	// CrawlTimeout int    `yaml:"crawltimeout"`
 }
 
 // ReadConfig returns a structure with data from config-file
