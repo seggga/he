@@ -15,7 +15,7 @@ run:
 # run tests
 .PHONY: test
 test:
-	go test -v ./...
+	go test -count=1 -cover ./...
 
 # run linters 
 .PHONY: lint
