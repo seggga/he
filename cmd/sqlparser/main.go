@@ -37,7 +37,7 @@ func main() {
 	go service.Run()
 
 	sigInt := make(chan os.Signal)
-	signal.Notify(sigInt, syscall.SIGINT)
+	signal.Notify(sigInt, syscall.SIGINT) //nolint: govet // syscall.SIGINT fits os.Signal interface
 
 	select {
 	case <-ctx.Done(): // conctext has been closed due to timeout

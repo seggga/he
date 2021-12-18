@@ -1,3 +1,4 @@
+//nolint: govet
 package rpn
 
 import (
@@ -6,25 +7,21 @@ import (
 	"github.com/seggga/he/internal/domain"
 )
 
-var (
-	whereTokens = []domain.Token{
-		{40, []byte("("), "bracket", 0},             // (
-		{57395, []byte("one"), "column name", 100},  // one
-		{62, []byte(">"), "operator", 3},            // >
-		{57398, []byte{49, 48}, "integral", 100},    // 10
-		{57409, []byte("OR"), "operator", 2},        // or
-		{57395, []byte("two"), "column name", 100},  // two
-		{61, []byte("="), "operator", 3},            // =
-		{57397, []byte("hi there"), "string", 100},  // "hi there"
-		{41, []byte(")"), "bracket", 1},             // )
-		{57410, []byte("and"), "operator", 2},       // and
-		{57395, []byte("four"), "column name", 100}, // four
-		{57418, []byte("<="), "operator", 3},        // <=
-		{57398, []byte{49, 53}, "integral", 100},    // 15
-	}
-
-	want = []domain.Token{}
-)
+var whereTokens = []domain.Token{
+	{40, []byte("("), "bracket", 0},             // (
+	{57395, []byte("one"), "column name", 100},  // one
+	{62, []byte(">"), "operator", 3},            // >
+	{57398, []byte{49, 48}, "integral", 100},    // 10
+	{57409, []byte("OR"), "operator", 2},        // or
+	{57395, []byte("two"), "column name", 100},  // two
+	{61, []byte("="), "operator", 3},            // =
+	{57397, []byte("hi there"), "string", 100},  // "hi there"
+	{41, []byte(")"), "bracket", 1},             // )
+	{57410, []byte("and"), "operator", 2},       // and
+	{57395, []byte("four"), "column name", 100}, // four
+	{57418, []byte("<="), "operator", 3},        // <=
+	{57398, []byte{49, 53}, "integral", 100},    // 15
+}
 
 func TestConvertToRPN(t *testing.T) {
 	want := []domain.Token{

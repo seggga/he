@@ -112,20 +112,20 @@ func parseCondition(condition string) []domain.Token {
 // domain.Token: {token, lexema, tokenType, priority}
 // Priority is set according to Reverse Poland Notation
 var validTokens = map[int]domain.Token{
-	40:    {40, []byte("("), "bracket", 0},
-	41:    {41, []byte(")"), "bracket", 1},
-	60:    {60, []byte("<"), "operator", 3},
-	61:    {61, []byte("="), "operator", 3},
-	62:    {62, []byte(">"), "operator", 3},
-	57418: {57418, []byte("<="), "operator", 3},
-	57419: {57419, []byte(">="), "operator", 3},
-	57420: {57420, []byte("!="), "operator", 3},
-	57409: {57409, []byte("OR"), "operator", 2},
-	57410: {57410, []byte("and"), "operator", 2},
-	57411: {57411, []byte("not"), "operator", 2},
-	57398: {57398, []byte("_"), "integral", 100},
-	57397: {57397, []byte("_"), "string", 100},
-	57395: {57395, []byte("_"), "column name", 100},
+	40:    {Token: 40, Lexema: []byte("("), TokenType: "bracket", Priority: 0},
+	41:    {Token: 41, Lexema: []byte(")"), TokenType: "bracket", Priority: 1},
+	60:    {Token: 60, Lexema: []byte("<"), TokenType: "operator", Priority: 3},
+	61:    {Token: 61, Lexema: []byte("="), TokenType: "operator", Priority: 3},
+	62:    {Token: 62, Lexema: []byte(">"), TokenType: "operator", Priority: 3},
+	57418: {Token: 57418, Lexema: []byte("<="), TokenType: "operator", Priority: 3},
+	57419: {Token: 57419, Lexema: []byte(">="), TokenType: "operator", Priority: 3},
+	57420: {Token: 57420, Lexema: []byte("!="), TokenType: "operator", Priority: 3},
+	57409: {Token: 57409, Lexema: []byte("OR"), TokenType: "operator", Priority: 2},
+	57410: {Token: 57410, Lexema: []byte("and"), TokenType: "operator", Priority: 2},
+	57411: {Token: 57411, Lexema: []byte("not"), TokenType: "operator", Priority: 2},
+	57398: {Token: 57398, Lexema: []byte("_"), TokenType: "integral", Priority: 100},
+	57397: {Token: 57397, Lexema: []byte("_"), TokenType: "string", Priority: 100},
+	57395: {Token: 57395, Lexema: []byte("_"), TokenType: "column name", Priority: 100},
 }
 
 // isValidToken checks if token is valid in WHERE statement

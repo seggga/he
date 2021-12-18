@@ -1,3 +1,4 @@
+//nolint: errcheck, govet
 package parser
 
 import (

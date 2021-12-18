@@ -14,7 +14,7 @@ func NewQuery() Query {
 	return Query{}
 }
 
-// NewQuery analyses users query string and produces Query structure
+// NewQuery analyzes users query string and produces Query structure
 func (q Query) Read() (string, error) {
 	return readQuery()
 }

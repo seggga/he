@@ -51,7 +51,7 @@ func (c CSVScanner) Row() ([]string, error) {
 
 func (c *CSVScanner) Close() {
 	c.Reader = nil
-	_ = c.file.Close()
+	_ = c.file.Close() //nolint: errcheck // just reading file, no need to check errors
 }
 
 func (c *CSVScanner) scan() error {
