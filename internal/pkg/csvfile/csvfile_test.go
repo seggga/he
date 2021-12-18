@@ -6,17 +6,18 @@ import (
 	"testing"
 )
 
-var (
-	testData = `col_str1,col_int,col_str2
+func TestHead(t *testing.T) {
+	var (
+		testData = `col_str1,col_int,col_str2
 one,1,two
 three,2,four`
-	testScanner = CSVScanner{
-		Reader: csv.NewReader(strings.NewReader(testData)),
-	}
-)
-
-func TestHead(t *testing.T) {
+		testScanner = CSVScanner{
+			Reader: csv.NewReader(strings.NewReader(testData)),
+		}
+	)
 	head, _ := testScanner.Head()
+	testScanner.Close()
+
 	want := []string{"col_str1", "col_int", "col_str2"}
 
 	if len(want) != len(head) {
@@ -30,6 +31,16 @@ func TestHead(t *testing.T) {
 }
 
 func TestHeadAndRow(t *testing.T) {
+	var (
+		testData = `col_str1,col_int,col_str2
+one,1,two
+three,2,four`
+		testScanner = CSVScanner{
+			Reader: csv.NewReader(strings.NewReader(testData)),
+		}
+	)
+	defer testScanner.Close()
+
 	head, _ := testScanner.Head()
 	want := []string{"col_str1", "col_int", "col_str2"}
 
