@@ -1,4 +1,0 @@
-
-# defines total timeout in seconds for the program to run
-timeout: 10
-separator: ","
