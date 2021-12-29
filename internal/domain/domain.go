@@ -1,5 +1,10 @@
 package domain
 
+type Config struct {
+	Timeout   int
+	Separator string
+}
+
 type Token struct {
 	Token     int
 	Lexema    []byte
