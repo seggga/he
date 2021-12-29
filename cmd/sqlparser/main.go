@@ -31,18 +31,21 @@ func main() {
 	parser := parser.NewParser()
 	checker := new(rpn.ConditionCheck)
 	csv := new(csvfile.CSVScanner)
+	done := make(chan struct{})
 
 	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(cfg.Timeout)*time.Second)
-	service := services.NewService(query, &parser, checker, csv, cfg.Separator, ctx)
+	service := services.NewService(query, &parser, checker, csv, *cfg, ctx, done)
 	go service.Run()
 
-	sigInt := make(chan os.Signal)
+	sigInt := make(chan os.Signal, 1)
 	signal.Notify(sigInt, syscall.SIGINT) //nolint: govet // syscall.SIGINT fits os.Signal interface
 
 	select {
-	case <-ctx.Done(): // conctext has been closed due to timeout
+	case <-done: // query stopped due to timeout
+		fmt.Println("finish query by timeout")
 		// log.Println("got INTERRUPT signal")
 	case <-sigInt: // got INT signal
+		fmt.Println("finish query by TERMINATE signal")
 		// log.Println("got INTERRUPT signal")
 		cancel()
 	}
