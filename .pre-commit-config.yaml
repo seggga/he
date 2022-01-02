@@ -1,0 +1,4 @@
+- id: test-and-lint
+  name: precommit test and lint
+  entry: pre-commit-test-n-lint.sh
+  # language: script
